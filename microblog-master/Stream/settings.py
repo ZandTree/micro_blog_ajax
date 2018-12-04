@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'bootstrap4'
+    'bootstrap4',
+    'django_cleanup',
 
 ]
 
@@ -132,7 +133,10 @@ SITE_ID = 1
 
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =False
 LOGIN_URL_REDIRECT = '/'
-
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_ADAPTER = 'adapter.AccountAdapter'
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 # Static files (CSS, JavaScript, Images)
