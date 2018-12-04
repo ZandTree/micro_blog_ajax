@@ -1,0 +1,11 @@
+<div class="nav">
+    <ul>
+        {% if user.is_active %}
+            <li><a href="/accounts/logout/">Выход</a></li>
+            <li><a href="{% url 'view_profile' %}">Profile</a></li>
+        {% else %}
+            <li><a href="/accounts/login/">Вход</a></li>
+        {% endif %}
+    </ul>
+
+</div>

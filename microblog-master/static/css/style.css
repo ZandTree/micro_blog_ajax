@@ -1,6 +1,7 @@
 .form-twit {
     width: 75%;
-    height: 270px;
+    /* height: 270px; */
+    height: 320px;
     padding: 15px;
     margin: 15px 0 25px 0;
     box-shadow: 1px 1px 16px 1px #cecece;

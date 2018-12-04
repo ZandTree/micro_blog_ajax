@@ -36,9 +36,19 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # for allauth
+    'django.contrib.sites',
     'django.contrib.staticfiles',
 
+    # own apps
+    'backend.profiles',
     'backend.app',
+    # third parties
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'bootstrap4'
+
 ]
 
 MIDDLEWARE = [
@@ -81,7 +91,10 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -115,9 +128,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
+
+# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =False
+LOGIN_URL_REDIRECT = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR, ]
 STATIC_URL = '/static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')

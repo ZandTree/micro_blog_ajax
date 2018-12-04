@@ -1,5 +1,4 @@
 from django import forms
-
 from backend.app.models import Post
 
 

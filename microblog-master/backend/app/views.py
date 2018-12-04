@@ -28,12 +28,13 @@ class PostView(View):
 class Like(View):
     """Ставим лайк"""
     def post(self, request):
-        try:
-            id = request.POST.get("id",0)
-            post = Post.objects.get(id=id)
-        except Post.DoesNotExist:
-            return JsonResponse({"status":"error"})
-
-        post.like += 1
+        pk = request.POST.get("id")
+        post = Post.objects.get(id=pk)
+        if request.user in post.user_like.all():
+            post.user_like.remove(User.objects.get(id=request.user.id))
+            post.like -= 1
+        else:
+            post.user_like.add(User.obejects.get(id=request.user.id))
+            post.like += 1
         post.save()
-        return JsonResponse({"status":"ok"})
+        return HttpResponse(status=201)
