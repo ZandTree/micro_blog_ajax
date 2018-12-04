@@ -4,7 +4,7 @@
             <li><a href="/accounts/logout/">Выход</a></li>
             <li><a href="{% url 'view_profile' %}">Profile</a></li>
         {% else %}
-            <li><a href="/accounts/login/">Вход</a></li>
+            <li><a href="/accounts/login/" id='loggin_button'>Вход</a></li>
         {% endif %}
     </ul>
 

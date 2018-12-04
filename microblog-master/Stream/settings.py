@@ -133,11 +133,18 @@ SITE_ID = 1
 
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =False
 LOGIN_URL_REDIRECT = '/'
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
 ACCOUNT_ADAPTER = 'adapter.AccountAdapter'
+
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
+# непонятно с ACCOUNT_FORMS
+# ACCOUNT_FORMS = {'login':'profiles.forms.MyLoginForm'}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

@@ -1,34 +1,22 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+
 {% block content %}
-    {% if messages %}
-        {% for message in messages%}
-            <div class="alert alert-warning alert-dismissable" role="alert">
-                <button class="close" data-dismiss="alert">
-                    <small><sup>x</sup></small>
-                </button>
-            </div>
-        {% endfor %}
-    {% endif %}
     {% if user.is_active %}
-    <div class="row form-twit">
-        <div class="col-md-6">
+            <div class="row form-twit">
             <form action="" method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <button type="submit" class="btn btn-success small">Отправить</button>
             </form>
         </div>
-    </div>
     {% endif %}
-    <br>
-    <br>
     {% for post in posts %}
         <div class="row">
             <div class="col-12">{{ post.text }}</div>
             <div class="col-12"><b>{{ post.date }}</b> - {{ post.user }}</div>
             <div class="col-12">{{ post.like }} -
-                <i class="fa fa-thumbs-o-up" aria-hidden="true" onclick="like({{post.id}})"></i>
+                <i class="fa fa-thumbs-o-up" aria-hidden="true" onclick="like({{ post.id }})"></i>
             </div>
             <hr>
         </div>
@@ -50,7 +38,7 @@
                     <form action="" method="post">
                         {% csrf_token %}
                         <input type="number" name="id" hidden value="{{ post.id }}">
-                        {{ form.as_p }}
+                        {% bootstrap_form form %}
                         <button type="submit" class="btn btn-success">Комментировать</button>
                     </form>
                 </div>
@@ -58,43 +46,6 @@
         {% endif %}
         <br>
     {% endfor %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    $('.js-like').on('click',function(e){
-        // var $like = $(this);
-        e.preventDefault();
-        var $like = $(this)
-        $.ajax({
-            url:'/like/',
-            method:'POST',
-            data:{
-                id:$like.data('id'),
-                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+{% endblock%}
 
-            }
-        }).done(function(resp){
-            console.log(resp);
-            if (resp&&resp.status=='ok'){
-                window.location.reload();
-            }
-            else{
-                alert('Wrong response');
-            }
-
-        }
-
-
-        )
-
-    });
-
-
-
-
-
-
-
-
-</script>
-
-{% endblock content %}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
