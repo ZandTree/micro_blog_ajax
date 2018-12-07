@@ -44,28 +44,13 @@ $(".need_auth").submit(function(e){
         );
      });
 
- // $("#signup_form").submit(function(e){
- //             e.preventDefault();
- //             var url = $(this).attr('action');
- //             console.log(url);
- //             var data = $(this).serialize();
- //             $.post(
- //                url,
- //                data,
- //                function(response){
- //                    window.location = response;
- //                },
-
-         //    );
-         // });
 
 
+// error: function(xhr, ajaxOptions, thrownError){
+//        alert('login failed - please try again');
+// },
 
-         // error: function(xhr, ajaxOptions, thrownError){
-         //        alert('login failed - please try again');
-         // },
-
-
+//example without serializing a form
 // "login": $('#id_login').val(),
 // "password": $('#id_password').val(),
 // "remember": $('#id_remember').val()

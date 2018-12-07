@@ -1,6 +1,6 @@
 <form id="signup_form" class="need_auth" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}
-    <!-- <p><input type="text"
+    <p><input type="text"
               name="username"
               placeholder="Имя пользователя"
               autofocus="autofocus"
@@ -9,7 +9,7 @@
               required=""
               id="id_username"
               class="form-control">
-    </p> -->
+    </p>
     <p><input type="email"
               name="email"
               placeholder="E-mail адрес"
