@@ -6,6 +6,7 @@
         headers: {"X-CSRFToken": csrftoken}
     });
 })();
+
 //Показать форму комментария
 let openForm = function (id) {
     $(`#${id}`).show()
@@ -24,7 +25,9 @@ let like = function (id) {
             pk: id,
         },
         success: (response) => {
+        //console.log('ajax ++++')
         window.location = response;
+
         }
     })
 

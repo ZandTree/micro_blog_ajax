@@ -16,7 +16,10 @@
         <li class="nav-item"><a class='nav-link' href="{% url 'view_profile' %}">Profile</a></li>
       {% else %}
         <li class="nav-item">
-            <a class="nav-link" id='loggin_button' href="/accounts/login/" data-toggle="modal" data-target="#loginModal">Вход</a>            
+            <!-- <a class="nav-link" id='loggin_button' href="/accounts/login/" data-toggle="modal" data-target="#loginModal">Вход</a>  -->
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">
+                    Вход
+                </a>
         </li>
       {% endif %}
       <li class="nav-item">
