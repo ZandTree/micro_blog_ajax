@@ -1,13 +1,12 @@
 // set csrf token
-// Установка csrf_token
 (function () {
     let csrftoken = Cookies.get('csrftoken');
+    // console.log(csrftoken);
     $.ajaxSetup({
         headers: {"X-CSRFToken": csrftoken}
     });
 })();
-
-// Показать форму комментария
+//Показать форму комментария
 let openForm = function (id) {
     $(`#${id}`).show()
 };
@@ -15,6 +14,7 @@ let openForm = function (id) {
 let closeForm = function (id) {
     $(`#${id}`).hide()
 };
+
 // Поставить лайк
 let like = function (id) {
     $.ajax({
@@ -24,37 +24,48 @@ let like = function (id) {
             pk: id,
         },
         success: (response) => {
-
+        window.location = response;
         }
     })
+
 };
 
-// var  $button = $('#need_login');
-//
-//      $button.on('click',function(){
-//
-//         var data = {
-      // "csrfmiddlewaretoken" : document.getElementsByName('csrfmiddlewaretoken')[0].value,
-       // "login": $('#id_login').val(),
-       // "password": $('#id_password').val(),
-       // "remember": $('#id_remember').val()
-       //  }
+$(".need_auth").submit(function(e){
+         e.preventDefault();
+         var url = $(this).attr('action');
+         var data = $(this).serialize();
+         $.post(
+            url,
+            data,
+            function(response){
+                window.location = response;
+            },
 
-        // var temp = {'X-CSRFToken': document.getElementsByName('csrfmiddlewaretoken'[0].value };
+        );
+     });
 
-//         $.post({
-//           url : "/accounts/login/",
-//           // headers: temp,
-//           type: "POST",
-//           data : data,
-//           contentType: "application/x-www-form-urlencoded",
-//           dataType: "text",
-//           success: function(response){
-//         // redirect to the required url
-//         window.location = response;
-//         },
-//         error: function(xhr, ajaxOptions, thrownError){
-//         alert('login failed - please try again');
-//         },
-//     });
-// });
+ // $("#signup_form").submit(function(e){
+ //             e.preventDefault();
+ //             var url = $(this).attr('action');
+ //             console.log(url);
+ //             var data = $(this).serialize();
+ //             $.post(
+ //                url,
+ //                data,
+ //                function(response){
+ //                    window.location = response;
+ //                },
+
+         //    );
+         // });
+
+
+
+         // error: function(xhr, ajaxOptions, thrownError){
+         //        alert('login failed - please try again');
+         // },
+
+
+// "login": $('#id_login').val(),
+// "password": $('#id_password').val(),
+// "remember": $('#id_remember').val()

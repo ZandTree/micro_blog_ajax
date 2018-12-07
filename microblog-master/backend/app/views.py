@@ -1,9 +1,11 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic import View,FormView
+from django.views.generic import View
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from backend.app.models import Post
 from backend.app.forms import PostForm
-from django.contrib.auth.models import User
 
 
 class PostView(View):
@@ -26,22 +28,21 @@ class PostView(View):
         else:
             return HttpResponse("error")
 
-class Like(View):
+
+class Like(LoginRequiredMixin, View):
     """Ставим лайк"""
     def post(self, request):
-        pk = request.POST.get("id")
+        pk = request.POST.get("pk")
         post = Post.objects.get(id=pk)
-        # не находит пост
-        print(post)
         if request.user in post.user_like.all():
             post.user_like.remove(User.objects.get(id=request.user.id))
             post.like -= 1
         else:
-            post.user_like.add(User.obejects.get(id=request.user.id))
+            post.user_like.add(User.objects.get(id=request.user.id))
             post.like += 1
         post.save()
         return HttpResponse(status=201)
-#
+
 # class SignInView(FormView):
 #     form_class = SignInForm
 #     template_name = 'account/signup.html'

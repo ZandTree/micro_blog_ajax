@@ -1,12 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db import models
-from django.utils import timezone
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from django.utils import timezone
 from PIL import Image
 import os
-from django.urls import reverse
+#
 
 
 def get_path_upload_avatar(instance,file):
@@ -20,7 +20,6 @@ def get_path_upload_avatar(instance,file):
     if len(head) >10:
         head = head[:10]
     file_name =  head + '_' + time + '.' + end_extention
-    print(file_name)
     return os.path.join('profile_pics','user_{0},{1}').format(instance.user.id,file_name)
 
 
