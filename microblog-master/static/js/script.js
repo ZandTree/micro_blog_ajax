@@ -41,8 +41,10 @@ $(".need_auth").submit(function(e){
             url,
             data,
             function(response){
-                window.location = response;
-            },
+                //console.log('respones coming');
+                //console.log(response);
+                window.location = response.location;
+            }
 
         );
      });

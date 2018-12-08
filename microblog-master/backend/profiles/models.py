@@ -41,7 +41,6 @@ class Profile(models.Model):
     def save(self,*args,**kwargs):
         super().save(*args,**kwargs)
         if self.avatar:
-            print("avatar detected")
             img = Image.open(self.avatar.path)
             if img.height > 150 or img.width > 150:
                 output_size = (150,150)

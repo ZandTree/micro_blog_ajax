@@ -19,7 +19,10 @@
                 {% else %}
                 <!-- выпадает форма регистрации,auth совершается без проблем,но redirects
                 по какому-то странному адресу (или не находит csrftoken) -->
-                <a  href="/accounts/login/" data-toggle="modal" data-target="#loginModal"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> зарегистрируйтесь, поставить оценку</a>
+                <a  href="/accounts/login/" data-toggle="modal" data-target="#loginModal">
+                    <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
+                    зарегистрируйтесь, поставить оценку
+                </a>
 
                 {% endif %}
             </div>

@@ -6,9 +6,4 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar','nike']
-        
-
-# class MyLoginForm(forms.ModelForm):
-#     class Meta:
-#         model = User
-#         fileds = ['email','password']
+        widgets = {'avatar':forms.ClearableFileInput(attrs={'class':'image_upload_but'})}
