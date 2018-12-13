@@ -30,7 +30,11 @@ class Profile(models.Model):
     user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
     nike = models.CharField("НикНейм", max_length=100, null=True, blank=True)
     avatar = models.ImageField("Аватар", upload_to=get_path_upload_avatar, null=True, blank=True)
-
+    follower = models.ManyToManyField(
+                        User,
+                        verbose_name="Фолловер",
+                        related_name='followers'
+                        )
     class Meta:
         verbose_name = "Профиль"
         verbose_name_plural = "Профили"
@@ -52,6 +56,12 @@ class Profile(models.Model):
             return '/media/{}'.format(self.avatar)
         else:
             return '/static/img/default.png/'
+    @property
+    def get_followers(self):
+        if self.follower:
+            return self.follower.all()
+        else:
+            return 'no followers yet'
 
     # def get_absolute_url(self):
     #     return reverse("profile",kwargs={'pk':self.id})

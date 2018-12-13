@@ -1,11 +1,27 @@
-from django.shortcuts import render,get_object_or_404,redirect
+from django.shortcuts import render,get_object_or_404,redirect,HttpResponse
 from .models import Profile
+from django.contrib.auth.models import User
 from .forms import ProfileForm
 from django.views import View
 from django.views.generic import UpdateView,DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
+
+
+class AddFollower(View):
+    """
+    blogger gets followers
+    """
+    def post(self, request):
+        pk = request.POST.get("pk")
+        blogger = Profile.objects.get(id=pk)
+        fan_id = request.user.id
+        fan = User.objects.get(id=fan_id)
+        blogger.follower.add(fan)
+        blogger.save()
+        return HttpResponse(status=201)
+
 
 class ProfileView(LoginRequiredMixin,DetailView):
     model = Profile

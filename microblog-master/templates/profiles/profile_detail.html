@@ -6,13 +6,19 @@
     <div class="col-md-6">
         <p>Welcome to your profile,
             {% if profile.nike %}
-                {{profile.nike}}
+                <strong>{{profile.nike}}</strong>
             {% else %}
-                {{user}}
+                <strong>{{user}}</strong>
             {% endif %}</p>
         <hr>
         <p>Your avatar:</p>
         <img class="avatar" src="{{profile.get_avatar_url}}">
+        <strong><p>You follow </p>{{ profile.follower.count }} bloggers in total</strong>
+        <!-- <p>profile.follower.all and user.profile.follower.all </p> -->
+        <p> {{profile.get_followers}}</p>
+        <hr>
+        <h4>You are followed body these fans:</h4>
+        <p>They are: </p>{{user.followers.all}}
 
     </div>
     <div class="col-md-4">

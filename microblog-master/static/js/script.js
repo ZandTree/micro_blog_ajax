@@ -15,6 +15,25 @@ let openForm = function (id) {
 let closeForm = function (id) {
     $(`#${id}`).hide()
 };
+// Become a follower
+let follow = function (id) {
+    $.ajax({
+        // url:{% url 'add-follower'%},
+        url: "http://127.0.0.1:8000/profile/add-follower/",
+        type: "POST",
+        data: {
+            pk: id,
+        },
+        success: (response) => {
+        //console.log('ajax ++++')
+        window.location = response;
+        },
+        error:(response) =>{
+            console.log('can not add follower')
+        }
+
+    })
+};
 
 // Поставить лайк
 let like = function (id) {
@@ -27,10 +46,8 @@ let like = function (id) {
         success: (response) => {
         //console.log('ajax ++++')
         window.location = response;
-
         }
     })
-
 };
 
 $(".need_auth").submit(function(e){
@@ -41,6 +58,7 @@ $(".need_auth").submit(function(e){
             url,
             data,
             function(response){
+                //almost impossible to see (because of reload)
                 //console.log('respones coming');
                 //console.log(response);
                 window.location = response.location;
