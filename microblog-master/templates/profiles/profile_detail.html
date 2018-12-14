@@ -13,17 +13,17 @@
         <hr>
         <p>Your avatar:</p>
         <img class="avatar" src="{{profile.get_avatar_url}}">
-        <strong><p>You follow </p>{{ profile.follower.count }} bloggers in total</strong>
-        <!-- <p>profile.follower.all and user.profile.follower.all </p> -->
-        <p> {{profile.get_followers}}</p>
+        <h4>You follow these blogger(s):</h4>
+            <p>{{user.followers.all}}</p>
         <hr>
-        <h4>You are followed body these fans:</h4>
-        <p>They are: </p>{{user.followers.all}}
-
+        <h4>You are followed by:</h4>
+        <p>You have <strong>{{profile.follower.count}}</strong> subscribers.</p>
+        <p>They are the following:
+            {{profile.follower.all}}
+        </p>
     </div>
     <div class="col-md-4">
         <a href="{% url 'edit_profile' %}"><button type="submit" class="btn btn-success btn-md" name="button">Update profile</button></a>
-
     </div>
 </div>
 {% endblock %}

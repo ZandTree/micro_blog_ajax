@@ -5,7 +5,12 @@ from django.db import models
 class Post(models.Model):
     """"Модель записи блога"""
 
-    user = models.ForeignKey(User, verbose_name="Пользователь", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+                User,
+                verbose_name="Пользователь",
+                on_delete=models.CASCADE,
+                related_name='twits'
+                )
     text = models.TextField("Сообщение", max_length=500)
     date = models.DateTimeField("Дата", auto_now_add=True)
     # parent_id это по сути == post

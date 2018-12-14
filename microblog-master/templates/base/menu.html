@@ -6,16 +6,19 @@
         <div id="navbarNavDropdown" class="navbar-collapse collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'posts' %}">Home<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'posts' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">All Posts</a>
+                    <a class="nav-link" href="/">All Posts<span class="sr-only">(current)</span></a>
                 </li>
                 {% if user.is_authenticated%}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'mypost' %}">My Posts + Whom I follow
+                    <a class="nav-link" href="{% url 'mypost' %}">My Posts + Who followes me
                     </a>
                 </li>
+                
+
+
                 {% endif %}
             </ul>
                <ul class="navbar-nav">
@@ -23,12 +26,22 @@
                          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                    </form>
-                   {% if user.is_authenticated %}
-                       <li class="nav-item">
-                         <a href="#" class="nav-link disabled">Welcome: {{user.username}}</a></li>
-                       <li><a class='nav-link' href="{% url 'view_profile' %}"><img class="avatar" src="{{user.profile.get_avatar_url}}" alt=""></a></li>
-                       <li class="nav-item"><a class='nav-link' href="/accounts/logout/">Выход</a></li>
-                       <li class="nav-item"><a class='nav-link' href="{% url 'view_profile'%}">Profile</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                         <a href="#" class="nav-link disabled">Welcome: {{user.username}}</a>
+                     </li>
+                    <li class="nav-item">
+                         <a class='nav-link' href="{% url 'view_profile'%}">Profile</a>
+                    </li>
+                    <li>
+                        <a class='nav-link' href="{% url 'view_profile' %}">
+                            <img class="avatar" src="{{user.profile.get_avatar_url}}" alt="">
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class='nav-link' href="/accounts/logout/">Выход</a>
+                    </li>
+
                    {% else %}
                        <li class="nav-item">
                             <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Вход</a>

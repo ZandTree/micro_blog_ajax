@@ -2,12 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from django.utils import timezone
 from PIL import Image
 import os
-#
-
 
 def get_path_upload_avatar(instance,file):
     """
@@ -22,11 +19,8 @@ def get_path_upload_avatar(instance,file):
     file_name =  head + '_' + time + '.' + end_extention
     return os.path.join('profile_pics','user_{0},{1}').format(instance.user.id,file_name)
 
-
-
 class Profile(models.Model):
     """Модель профиля пользователя"""
-
     user = models.OneToOneField(User, verbose_name="Пользователь", on_delete=models.CASCADE)
     nike = models.CharField("НикНейм", max_length=100, null=True, blank=True)
     avatar = models.ImageField("Аватар", upload_to=get_path_upload_avatar, null=True, blank=True)
@@ -46,8 +40,8 @@ class Profile(models.Model):
         super().save(*args,**kwargs)
         if self.avatar:
             img = Image.open(self.avatar.path)
-            if img.height > 150 or img.width > 150:
-                output_size = (150,150)
+            if img.height > 50 or img.width > 50:
+                output_size = (50,50)
                 img.thumbnail(output_size)
                 img.save(self.avatar.path)
     @property

@@ -12,32 +12,39 @@ class AllPost(ListView):
     context_object_name = 'posts'
     template_name = 'app/index.html'
     # paginate_by = 3
-
     def get_context_data(self,**kwargs):
         context = super().get_context_data(**kwargs)
         form = PostForm()
         context['form'] = form
         return context
+    def post(self, request):
+        form = PostForm(request.POST)
+        if form.is_valid():
+            pk = request.POST.get("id", None)
+            form = form.save(commit=False)
+            if pk is not None:
+                form.twit = Post.objects.get(id=pk)
+            form.user = request.user
+            form.save()
+            return redirect("/")
+        else:
+            return HttpResponse("error")
 
 class MyPostView(LoginRequiredMixin,View):
-    """"Сообщения пользователя"""
+    """"Сообщения пользователя + twits of his(her) followers"""
     def get(self, request):
-        # if request.user.is_authenticated:
-        #posts = Post.objects.filter(twit__isnull=True,user=request.user)
-        # else:
-        #     posts = Post.objects.filter(twit__isnull=True)
         posts = self.get_queryset()
         form = PostForm()
         return render(request, "app/index.html", {"posts": posts, "form": form})
 
     def get_queryset(self):
-        me = self.request.user
-        bloggers_i_follow = me.profile.follower.all()
-        # фильтруем последовательно: у поста (должн быть родителeм, а не комментoм)
-        # есть юзер - у юзера есть профиль,к напрямую через attr = follow выведет  тех, кого хотим читать
-        queryset = Post.objects.filter(twit__isnull=True,user__in=bloggers_i_follow)
-        return queryset
-
+        current_user = self.request.user
+        followers_of_current_user = current_user.profile.follower.all()
+        lst_id = [current_user.id]
+        for id_follower in followers_of_current_user:
+            lst_id.append(id_follower)
+        qs = Post.objects.filter(user_id__in= lst_id)     
+        return qs
 
     def post(self, request):
         form = PostForm(request.POST)
@@ -66,17 +73,3 @@ class Like(LoginRequiredMixin, View):
             post.like += 1
         post.save()
         return HttpResponse(status=201)
-
-# class SignInView(FormView):
-#     form_class = SignInForm
-#     template_name = 'account/signup.html'
-#
-#     def form_valid(self, form):
-#         bound_form = form.cleaned_data
-#         user = auth.authenticate(email=form.user.email, password=bound_form['password'])
-#         auth.login(self.request, user)
-#         data = dict()
-#         data['valid'] = True
-#         if self.request.GET.get('next'):
-#             data['url'] = self.request.GET.get('next')
-#         return HttpResponse(json.dumps(data), content_type="application/json")

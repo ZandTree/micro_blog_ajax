@@ -36,10 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # for allauth
-    'django.contrib.sites',
     'django.contrib.staticfiles',
-
+    # for allauth
+    'django.contrib.sites',    
     # own apps
     'backend.profiles',
     'backend.app',
