@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse,Http404
+from django.shortcuts import render, redirect,get_object_or_404
 from django.views.generic import View,ListView
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -43,7 +43,7 @@ class MyPostView(LoginRequiredMixin,View):
         lst_id = [current_user.id]
         for id_follower in followers_of_current_user:
             lst_id.append(id_follower)
-        qs = Post.objects.filter(user_id__in= lst_id)     
+        qs = Post.objects.filter(user_id__in= lst_id)
         return qs
 
     def post(self, request):
@@ -58,6 +58,34 @@ class MyPostView(LoginRequiredMixin,View):
             return redirect("/")
         else:
             return HttpResponse("error")
+
+class PostsIfollow(LoginRequiredMixin,ListView):
+    model = Post
+    template_name = 'app/favorites.html'
+    context_object_name = 'posts'
+
+    def post(self, request):
+        form = PostForm(request.POST)
+        if form.is_valid():
+            pk = request.POST.get("id", None)
+            form = form.save(commit=False)
+            if pk is not None:
+                form.twit = Post.objects.get(id=pk)
+            form.user = request.user
+            form.save()
+            return redirect("/")
+        else:
+            return HttpResponse("error")
+
+    def get_queryset(self):
+        current_user = User.objects.get(id = self.request.user.id)
+        people_i_follow = current_user.followers.all()
+        lst_id = []
+        for user in people_i_follow:
+            lst_id.append(user.id)
+        qs = Post.objects.filter(user_id__in= lst_id)
+        return  qs
+
 
 
 class Like(LoginRequiredMixin, View):

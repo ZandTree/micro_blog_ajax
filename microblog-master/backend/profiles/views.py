@@ -16,12 +16,9 @@ class AddFollower(View):
     """
     def post(self, request):
         pk = request.POST.get("pk")
-        # выпилила post id,который приведёт меня к id
-        #  blogger I like
         blogger = Profile.objects.get(id=pk)
         fan_id = request.user.id
         fan = User.objects.get(id=fan_id)
-        # me прицепляюсь к profile blogger I like
         blogger.follower.add(fan)
         blogger.save()
         return HttpResponse(status=201)
