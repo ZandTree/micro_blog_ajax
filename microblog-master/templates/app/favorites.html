@@ -12,8 +12,8 @@
             <div class="col-12">
                 <b>{{ post.date }}</b> - <a href="{% url 'public_user_info' post.user.id %}">{{ post.user }}</a>
                         <!-- { if post.user not user} -->
-                        <button class="btn btn-success btn-small" onclick="follow({{ post.user.id }})">
-                        Follow this blogger? {{post.user.id}}
+                        <button class="btn btn-success btn-small" onclick="undofollow({{ post.user.id }})">
+                        UnFollow this blogger? {{post.user.id}}
                         </button>
                         <!-- { endif } -->
 
@@ -22,8 +22,6 @@
                 {% if user.is_authenticated %}
                 <i class="fa fa-thumbs-o-up" aria-hidden="true" onclick="like({{ post.id }})"></i>
                 {% else %}
-                <!-- выпадает форма регистрации,auth совершается без проблем,но redirects
-                по какому-то странному адресу (или не находит csrftoken) -->
                 <a  href="/accounts/login/" data-toggle="modal" data-target="#loginModal">
                     <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>
                     зарегистрируйтесь, поставить оценку

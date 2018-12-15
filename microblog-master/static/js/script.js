@@ -25,7 +25,24 @@ let follow = function (id) {
             pk: id,
         },
         success: (response) => {
-        //console.log('ajax ++++')
+        window.location = response;
+        },
+        error:(response) =>{
+            console.log('can not add follower')
+        }
+
+    })
+};
+// User can remove himself from people he follows
+let undofollow = function (id) {
+    $.ajax({
+        // url:{% url 'add-follower'%},
+        url: "http://127.0.0.1:8000/profile/undo-follower/",
+        type: "POST",
+        data: {
+            pk: id,
+        },
+        success: (response) => {
         window.location = response;
         },
         error:(response) =>{

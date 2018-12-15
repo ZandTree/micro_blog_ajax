@@ -26,6 +26,19 @@ class AddFollower(View):
         blogger.save()
         return HttpResponse(status=201)
 
+class UndoFollower(View):
+    """
+    unsubcribe from be a follower
+    """
+    def post(self, request):
+        pk = request.POST.get("pk")
+        blogger = Profile.objects.get(id=pk)
+        fan_id = request.user.id
+        fan = User.objects.get(id=fan_id)
+        blogger.follower.remove(fan)
+        blogger.save()
+        return HttpResponse(status=201)
+
 
 class ProfileView(LoginRequiredMixin,DetailView):
     model = Profile
