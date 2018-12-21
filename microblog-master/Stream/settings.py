@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'bootstrap4',
     'django_cleanup',
     'debug_toolbar',
+    'mptt',
+    "django_mptt_admin",
+
 
 ]
 
@@ -135,6 +138,7 @@ SITE_ID = 1
 
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS =False
 LOGIN_URL_REDIRECT = '/'
+# ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False

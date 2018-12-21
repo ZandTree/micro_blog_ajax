@@ -16,13 +16,9 @@ class AddFollower(View):
     """
     def post(self, request):
         pk = request.POST.get("pk")
-        # выпилила post id,который приведёт меня к id
-        #  blogger I like
         blogger = Profile.objects.get(id=pk)
-        fan_id = request.user.id
-        fan = User.objects.get(id=fan_id)
-        # me прицепляюсь к profile blogger I like
-        blogger.follower.add(fan)
+        future_fan = User.objects.get(id=request.user.id)
+        blogger.follower.add(future_fan)
         blogger.save()
         return HttpResponse(status=201)
 
@@ -33,9 +29,8 @@ class UndoFollower(View):
     def post(self, request):
         pk = request.POST.get("pk")
         blogger = Profile.objects.get(id=pk)
-        fan_id = request.user.id
-        fan = User.objects.get(id=fan_id)
-        blogger.follower.remove(fan)
+        current_user = User.objects.get(id=request.user.id)
+        blogger.follower.remove(current_user)
         blogger.save()
         return HttpResponse(status=201)
 
@@ -67,7 +62,8 @@ class PublicUserInfo(LoginRequiredMixin,DetailView):
     def get_queryset(self):
         profile = self.get_object()
         user = User.objects.get(id=profile.id)
-        qs = user.twits.filter(twit__isnull=True)
+        # qs = user.twits.filter(twit__isnull=True)
+        qs = Post.objects.filter(user=user,parent_id__isnull=True )
         return qs
 
     def get_context_data(self,**kwargs):

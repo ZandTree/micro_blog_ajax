@@ -6,66 +6,78 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from backend.profiles.models import Profile
 from backend.app.models import Post
 from backend.app.forms import PostForm
-# let op: clas AllPost will be a parent for the others
 from django.db.models import Q
-from braces.views import PrefetchRelatedMixin
 
-class AllPost(ListView):
-    model = Post
-    context_object_name = 'posts'
-    template_name = 'app/index.html'
-    #paginate_by = 3
-    def get_context_data(self,**kwargs):
-        context = super().get_context_data(**kwargs)
+
+class AllPost(View):
+    def get(self, request):
+        posts = Post.objects.all()
         form = PostForm()
-        context['form'] = form
-        return context
+        return render(request, "app/index.html",{"posts":posts,"form": form})
+
     def post(self, request):
         form = PostForm(request.POST)
         if form.is_valid():
             pk = request.POST.get("id", None)
             form = form.save(commit=False)
             if pk is not None:
-                form.twit = Post.objects.get(id=pk)
+                form.parent = Post.objects.get(id=pk)
             form.user = request.user
             form.save()
             return redirect("/")
         else:
             return HttpResponse("error")
 
-# class UserView(PrefetchRelatedMixin, DetailView):
-#     model = User
-#     prefetch_related = [u"post_set"]  # where the Post model has an FK to the User model as an author.
-#     template_name = u"users/detail.html"
-
-class MyPostView(LoginRequiredMixin,AllPost):
-    """"Сообщения пользователя + twits of his(her) followers"""
-    def get_queryset(self):
-        current_user = self.request.user
-        #followers_of_current_user = current_user.profile.follower.all()
-        followers_of_current_user = current_user.profile.follower.all()
-        #1 option (with id's 6 msec)
-        lst_id = [current_user.id]
-        for id_follower in followers_of_current_user:
-            lst_id.append(id_follower)
-        qs = Post.objects.filter(user_id__in= lst_id)
-        #2 option (Q objects = 8msec)
-        #qs = Post.objects.filter(Q(user__in=followers_of_current_user)|Q(user=current_user))
-        #3 option select_related
-        return qs
 
 
+class MyFansPostList(LoginRequiredMixin,View):
+    """Сообщения пользователя"""
+    def get(self, request):
+        # posts = Post.objects.filter(user=request.user)
+        posts = Post.objects.filter(
+                        Q(user_id__in=self.request.user.profile.get_followers) |
+                        Q(user_id=self.request.user.id)
+                        )
+        form = PostForm()
+        return render(request, "app/index.html", {"posts": posts,"form": form})
 
-class PostsIfollow(LoginRequiredMixin,AllPost):
-    def get_queryset(self):
+    def post(self, request):
+        form = PostForm(request.POST)
+        if form.is_valid():
+            pk = request.POST.get("id", None)
+            form = form.save(commit=False)
+            if pk is not None:
+                form.parent = Post.objects.get(id=pk)
+            form.user = request.user
+            form.save()
+            return redirect("myfans")
+        else:
+            return HttpResponse("error")
+
+
+
+class PostsIFollow(LoginRequiredMixin,View):
+    """Вывод твитов тех, кого пользователь отслеживает"""
+    def get(self, request):
         current_user = User.objects.get(id = self.request.user.id)
         people_i_follow = current_user.followers.all()
-        lst_id = []
-        for user in people_i_follow:
-            lst_id.append(user.id)
-        qs = Post.objects.filter(user_id__in= lst_id)
-        return  qs
+        list_id = current_user.followers.values_list('id',flat=True)
+        posts = Post.objects.filter(user_id__in= list_id)
+        form = PostForm()
+        return render(request, "app/favorites.html", {"posts": posts,"form": form})
 
+    def post(self, request):
+        form = PostForm(request.POST)
+        if form.is_valid():
+            pk = request.POST.get("id", None)
+            form = form.save(commit=False)
+            if pk is not None:
+                form.parent = Post.objects.get(id=pk)
+            form.user = request.user
+            form.save()
+            return redirect("favorites")
+        else:
+            return HttpResponse("error")
 
 class Like(LoginRequiredMixin, View):
     """Ставим лайк"""
@@ -80,24 +92,3 @@ class Like(LoginRequiredMixin, View):
             post.like += 1
         post.save()
         return HttpResponse(status=201)
-
-# def get_context_data(self,**kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context['posts'] = self.get_queryset()
-#     return context
-# model = Profile
-# prefetch_related = ('posts')  # where the Post model has an FK to the User model as an author.
-# template_name = u"app/favorites.html"
-#
-# model = User
-# template_name = 'app/favorites.html'
-# prefetch_related= [u"user"]
-
-# def get_object(self,queryset=None):
-#     obj = get_object_or_404 (
-#         User,
-#         user = self.request.user
-#     )
-#     if obj.user != self.request.user:
-#         raise Http404
-#     return obj

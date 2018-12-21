@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import *
+from backend.app import views
 
 urlpatterns = [
-    path('', AllPost.as_view(), name="posts"),
-    path('like/', Like.as_view(),name='like'),
-    path('mypost/',MyPostView.as_view(),name='mypost'),
-    path('favorites/',PostsIfollow.as_view(),name='favorites'),
+    path('', views.AllPost.as_view(), name="posts"),
+    path('myfans/',views.MyFansPostList.as_view(),name='myfans'),
+    path('like/', views.Like.as_view(),name='like'),
+    path('favorites/',views.PostsIFollow.as_view(),name='favorites'),
 
 ]

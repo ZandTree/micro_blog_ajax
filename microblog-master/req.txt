@@ -2,3 +2,6 @@ Django==2.1.3
 pytz==2018.7
 django-bootstrap4 == 0.0.7
 django-braces-1.13.0
+django-mptt-0.9.1
+django-mptt-admin-0.6.0 six-1.12.0
+django-mptt-tree-editor-0.1.2

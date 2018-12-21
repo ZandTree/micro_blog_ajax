@@ -1,5 +1,7 @@
 from django import forms
 from backend.app.models import Post
+from mptt.forms import TreeNodeChoiceField
+
 class PostForm(forms.ModelForm):
     """"Форма добавление сообщения"""
     class Meta:

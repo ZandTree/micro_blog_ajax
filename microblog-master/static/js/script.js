@@ -83,14 +83,3 @@ $(".need_auth").submit(function(e){
 
         );
      });
-
-
-
-// error: function(xhr, ajaxOptions, thrownError){
-//        alert('login failed - please try again');
-// },
-
-//example without serializing a form
-// "login": $('#id_login').val(),
-// "password": $('#id_password').val(),
-// "remember": $('#id_remember').val()

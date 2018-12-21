@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% load static %}
+{% load mptt_tags %}
 {% block content %}
 <div class="row">
     <div class="col-md-3">
-        <h4>This user is followed by:</h4>
+        <h4>Подписчики этого блогера:</h4>
         <nav class="nav flex-column">
             {% for my_follower in profile.follower.all %}
               <a class="nav-link active" href="{% url 'public_user_info' my_follower.profile.pk %}"><img class="avatar" src="{{my_follower.profile.get_avatar_url}}" alt="foto_follower"> {{my_follower.profile.user}}</a>
@@ -22,8 +23,8 @@
                     {% endif %}</h1>
             </div>
             <p class="lead"><img class="avatar" src="{{profile.get_avatar_url}}"></p>
-            <h4>This person follows the following blogger(s):</h4>
-                <p>(Let op)Not done yet</p>
+            <h4>Это блогер отслеживает сообщения след-их пользователей: </h4>
+                <p>Not done yet</p>
             <hr>
             <h4>This user is followed by:</h4>
             <p>You have <strong>{{profile.follower.count}}</strong> subscribers.</p>
